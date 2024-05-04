@@ -4,13 +4,13 @@ from view import view
 from vec3 import Vec3
 from ray import Ray
 from hittable_list import HittableList
-from hittable import Sphere
+from hittable import Sphere, Hittable
 from camera import Camera
 from material import Lambertian, Metal
 from multiprocessing import Process
 from mixer import mix
 
-def gen_image(image, world):
+def gen_image(image: str, world: Hittable):
     cam = Camera(image, samples=20, image_width=400)
 
     cam.render(world)

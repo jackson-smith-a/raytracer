@@ -1,9 +1,19 @@
 import math
 from ray import Ray
 from interval import Interval
+from vec3 import Vec3
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from material import Material
 
 class HitRecord:
-    def __init__(self, pos, normal, t, ff, mat):
+    def __init__(self,
+                 pos: Vec3,
+                 normal: Vec3,
+                 t: float,
+                 ff: bool,
+                 mat: "Material"):
         self.pos = pos
         self.normal = normal
         self.t = t
@@ -11,16 +21,16 @@ class HitRecord:
         self.mat = mat
         
 class Hittable:
-    def hit(self, ray, ray_t):
+    def hit(self, ray: Ray, ray_t: Interval):
         return None
     
 class Sphere(Hittable):
-    def __init__(self, pos, radius, mat):
+    def __init__(self, pos: Vec3, radius: float, mat: "Material"):
         self.pos = pos
         self.radius = radius
         self.mat = mat
         
-    def hit(self, ray, ray_t):
+    def hit(self, ray: Ray, ray_t: Interval) -> HitRecord:
         oc = self.pos - ray.origin
         a = ray.direction.mag2()
         b = ray.direction.dot(oc)

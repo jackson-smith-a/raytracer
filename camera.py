@@ -1,26 +1,25 @@
-from hittable_list import HittableList
-from vec3 import Vec3, random_vec_on_hemisphere, random_unit_vec
+from hittable import Hittable
+from vec3 import Vec3
 from ray import Ray
 from ppm import PPM
 from interval import Interval
 import random
-import math
 
-def sample_square():
+def sample_square() -> Vec3:
     return Vec3(random.uniform(-0.5, 0.5),
                 random.uniform(-0.5, 0.5),
                 0)
 
 class Camera:
     def __init__(self,
-                 img,
-                 pos=Vec3(0, 0, 0),
-                 image_width=400,
-                 aspect_ratio=16.0/9.0,
-                 focal_length=1.0,
-                 viewport_height=2.0,
-                 samples=15,
-                 max_bounces=10):
+                 img: str,
+                 pos: Vec3 = Vec3(0, 0, 0),
+                 image_width: int = 400,
+                 aspect_ratio: float = 16.0/9.0,
+                 focal_length: float = 1.0,
+                 viewport_height: float = 2.0,
+                 samples: int = 15,
+                 max_bounces: int = 10):
         self.pos = pos
         
         self.samples = samples
@@ -55,7 +54,7 @@ class Camera:
             self.image_height = 1
 
         
-    def render(self, world):
+    def render(self, world: Hittable):
         for j in range(self.image_height):
             for i in range(self.image_width):
                 color = Vec3(0, 0, 0)
@@ -68,7 +67,7 @@ class Camera:
                 self.img.write(color)
         self.img.close()
         
-    def get_ray(self, i, j):
+    def get_ray(self, i: int, j: int) -> Ray:
         offset = sample_square()
         
         pixel_sample = self.pixel00_loc \
@@ -80,7 +79,7 @@ class Camera:
         
         return Ray(ray_origin, ray_dir)
     
-    def ray_color(self, ray, world, bounces=None):
+    def ray_color(self, ray: Ray, world: Hittable, bounces: int|None = None) -> Vec3:
         if bounces is None:
             bounces = self.max_bounces
         if bounces <= 0:

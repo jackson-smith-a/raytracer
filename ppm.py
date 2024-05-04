@@ -2,13 +2,13 @@ from vec3 import Vec3
 from interval import Interval
 import math
 
-def linear_to_gamma(lin):
+def linear_to_gamma(lin: float) -> float:
     if lin > 0:
         return math.sqrt(lin)
-    return 0
+    return 0.0
 
 class PPM:
-    def __init__(self, filename, width, height):
+    def __init__(self, filename: str, width: int, height: int):
         self.filename = "images/" + filename
         self.width = width
         self.height = height
@@ -18,7 +18,7 @@ class PPM:
 
         self.file = open(self.filename, 'a')
         
-    def write(self, color):
+    def write(self, color: Vec3):
         r,g,b = color.x, color.y, color.z
         
         r = linear_to_gamma(r)

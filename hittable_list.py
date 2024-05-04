@@ -1,9 +1,10 @@
 from hittable import Hittable, HitRecord
 from interval import Interval
+from ray import Ray
 
 class HittableList(Hittable):
     def __init__(self):
-        self.objects = []
+        self.objects: list[Hittable] = []
         
     def clear(self):
         self.objects.clear()
@@ -11,7 +12,7 @@ class HittableList(Hittable):
     def add(self, obj):
         self.objects.append(obj)
         
-    def hit(self, r, ray_t):
+    def hit(self, r: Ray, ray_t: Interval) -> HitRecord:
         best_rec = None
         closest = ray_t.max_value
         
